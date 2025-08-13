@@ -49,7 +49,6 @@ const committeeData = [
 function App() {
   const [current, setCurrent] = useState(0);
   const isMobile = useMediaQuery('(max-width:600px)');
-  // Updated media query for very small screens to 423px
   const isVerySmall = useMediaQuery('(max-width:423px)');
   const [init, setInit] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -188,12 +187,12 @@ function App() {
               alignItems: 'center',
               p: 2,
               position: 'relative',
-              // Use isVerySmall to determine justification
               justifyContent: isMobile || isVerySmall ? 'center' : 'flex-start',
             }}>
                 {isVerySmall ? (
                     <Box sx={{ textAlign: 'center', width: '100%' }}>
-                        <Typography variant="h4" sx={{ fontWeight: 700, lineHeight: 1.1 }}>GSL</Typography>
+                        {/* Updated text for very small screens */}
+                        <Typography variant="h4" sx={{ fontWeight: 700, lineHeight: 1.1 }}>DPMUN GSL</Typography>
                         <Typography variant="h5" sx={{ fontWeight: 700 }}>Tournament</Typography>
                     </Box>
                 ) : (
