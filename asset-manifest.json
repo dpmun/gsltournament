@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/gsltournament/static/js/main.b3a076cb.js",
+    "main.js": "/gsltournament/static/js/main.f52fa358.js",
     "index.html": "/gsltournament/index.html",
-    "main.b3a076cb.js.map": "/gsltournament/static/js/main.b3a076cb.js.map"
+    "main.f52fa358.js.map": "/gsltournament/static/js/main.f52fa358.js.map"
   },
   "entrypoints": [
-    "static/js/main.b3a076cb.js"
+    "static/js/main.f52fa358.js"
   ]
 }
