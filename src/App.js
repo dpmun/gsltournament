@@ -152,7 +152,7 @@ function App() {
             transition={{ duration: 1, delay: 1.5 }}
           >
             <motion.img
-              src="/icon.png"
+              src={`${process.env.PUBLIC_URL}/icon.png`}
               alt="Loading"
               style={{ width: 80, height: 80 }}
               initial={{ opacity: 0, scale: 0.8 }}
@@ -187,7 +187,7 @@ function App() {
           position: 'relative',
           justifyContent: isMobile ? 'center' : 'flex-start',
         }}>
-            <img src="/icon.png" alt="Logo" style={{ width: 40, height: 40, marginRight: 16 }} />
+            <img src={`${process.env.PUBLIC_URL}/icon.png`} alt="Logo" style={{ width: 40, height: 40, marginRight: 16 }} />
             <Typography variant="h4" sx={{ fontWeight: 700 }}>
                 GSL Tournament
             </Typography>
@@ -222,7 +222,7 @@ function App() {
                     },
                   }}>
                     <img
-                        src="/unemblem.png"
+                        src={`${process.env.PUBLIC_URL}/unemblem.png`}
                         alt="Watermark"
                         style={{
                             position: 'absolute',
