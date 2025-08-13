@@ -15,7 +15,6 @@ import { alpha } from '@mui/material/styles';
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadFull } from "tsparticles";
 
-
 const committeeData = [
   {
     name: 'UNHRC',
@@ -46,7 +45,6 @@ const committeeData = [
     watermarkPosition: { bottom: -80, left: -80 },
   },
 ];
-
 
 function App() {
   const [current, setCurrent] = useState(0);
@@ -208,7 +206,7 @@ function App() {
                     width: '100%',
                     maxWidth: CARD_MAX_WIDTH,
                     minWidth: CARD_MIN_WIDTH,
-                    p: { xs: 2.5, sm: 3 }, // Reduced padding for a shorter card
+                    p: { xs: 2.5, sm: 3 },
                     borderRadius: 4,
                     textAlign: 'center',
                     boxShadow: (t) => t.shadows[8],
@@ -230,7 +228,7 @@ function App() {
                             position: 'absolute',
                             width: '250px',
                             height: '250px',
-                            opacity: 0.08, // Increased opacity for more visibility
+                            opacity: 0.08,
                             pointerEvents: 'none',
                             ...committee.watermarkPosition,
                         }}
