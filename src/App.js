@@ -49,6 +49,8 @@ const committeeData = [
 function App() {
   const [current, setCurrent] = useState(0);
   const isMobile = useMediaQuery('(max-width:600px)');
+  // Updated media query for very small screens to 423px
+  const isVerySmall = useMediaQuery('(max-width:423px)');
   const [init, setInit] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -179,117 +181,135 @@ function App() {
             <Particles id="tsparticles" options={particlesOptions} />
           </motion.div>
         )}
+        
+        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              p: 2,
+              position: 'relative',
+              // Use isVerySmall to determine justification
+              justifyContent: isMobile || isVerySmall ? 'center' : 'flex-start',
+            }}>
+                {isVerySmall ? (
+                    <Box sx={{ textAlign: 'center', width: '100%' }}>
+                        <Typography variant="h4" sx={{ fontWeight: 700, lineHeight: 1.1 }}>GSL</Typography>
+                        <Typography variant="h5" sx={{ fontWeight: 700 }}>Tournament</Typography>
+                    </Box>
+                ) : (
+                    <>
+                        <img src={`${process.env.PUBLIC_URL}/icon.png`} alt="Logo" style={{ width: 40, height: 40, marginRight: 16 }} />
+                        <Typography variant="h4" sx={{ fontWeight: 700 }}>GSL Tournament</Typography>
+                    </>
+                )}
+            </Box>
 
-        <Box sx={{
-          display: 'flex',
-          alignItems: 'center',
-          p: 2,
-          position: 'relative',
-          justifyContent: isMobile ? 'center' : 'flex-start',
-        }}>
-            <img src={`${process.env.PUBLIC_URL}/icon.png`} alt="Logo" style={{ width: 40, height: 40, marginRight: 16 }} />
-            <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                GSL Tournament
+            <Box component="main" sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', position: 'relative', overflow: 'hidden', px: 2 }}>
+            <Box sx={{ width: '100%', maxWidth: '1200px', position: 'relative' }}>
+                <motion.div style={{ display: 'flex', width: `${committeeData.length * 100}%`, x: `-${current * (100 / committeeData.length)}%` }} animate={{ x: `-${current * (100 / committeeData.length)}%` }} transition={SPRING_OPTIONS}>
+                {committeeData.map((committee, i) => (
+                    <Box key={committee.name} sx={{ width: `${100 / committeeData.length}%`, display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', px: { xs: 2, sm: 0 } }}>
+                    <Box sx={{ position: 'absolute', width: '100%', aspectRatio: 'auto', py: {xs: 15, sm: 18}, maxWidth: CARD_MAX_WIDTH, minWidth: CARD_MIN_WIDTH, backdropFilter: 'blur(8px)', borderRadius: 4, }} />
+                    <Paper sx={{
+                        position: 'relative',
+                        overflow: 'hidden',
+                        bgcolor: committee.color,
+                        width: '100%',
+                        maxWidth: CARD_MAX_WIDTH,
+                        minWidth: CARD_MIN_WIDTH,
+                        p: { xs: 2.5, sm: 3 },
+                        borderRadius: 4,
+                        textAlign: 'center',
+                        boxShadow: (t) => t.shadows[8],
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        transform: isMobile ? 'translateY(-40px)' : 'none',
+                        transition: 'transform 0.3s, box-shadow 0.3s',
+                        '&:hover': {
+                        transform: isMobile ? 'scale(1.02) translateY(-40px)' : 'scale(1.02)',
+                        boxShadow: (t) => t.shadows[12],
+                        },
+                    }}>
+                        <img
+                            src={`${process.env.PUBLIC_URL}/unemblem.png`}
+                            alt="Watermark"
+                            style={{
+                                position: 'absolute',
+                                width: '250px',
+                                height: '250px',
+                                opacity: 0.08,
+                                pointerEvents: 'none',
+                                ...committee.watermarkPosition,
+                            }}
+                        />
+                        <Box>
+                        <Typography variant={isMobile ? 'h6' : 'h5'} sx={{ mb: 2, fontWeight: 700 }}>{committee.name}</Typography>
+                        <Typography variant="body2" sx={{ px: 1, fontStyle: 'italic', opacity: 0.9 }}>{committee.description}</Typography>
+                        </Box>
+
+                        <Box sx={{ width: '100%', mt: 2 }}>
+                        <Divider sx={{ my: 2, bgcolor: 'rgba(255, 255, 255, 0.2)' }} />
+                        <Button
+                            variant="outlined"
+                            href={committee.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            sx={{
+                            borderColor: alpha('#fff', 0.3),
+                            color: 'white',
+                            '&:hover': {
+                                borderColor: alpha('#fff', 0.7),
+                                bgcolor: alpha('#fff', 0.1)
+                            }
+                            }}
+                        >
+                            Write your GSL
+                        </Button>
+                        </Box>
+                    </Paper>
+                    </Box>
+                ))}
+                </motion.div>
+
+                {!isMobile && (
+                <>
+                    <Button onClick={() => setCurrent((prev) => (prev - 1 + committeeData.length) % committeeData.length)} sx={{ position: 'absolute', top: '50%', left: { xs: 'calc(50% - 200px)', sm: 'calc(50% - 300px)', md: 'calc(50% - 400px)' }, transform: 'translateY(-50%)', zIndex: 10, color: 'white', '&:hover': { color: blue[500] }, minWidth: 0, p: 1, }}>
+                    <ArrowLeftIcon sx={{ fontSize: { xs: '2.5rem', md: '3rem' } }} />
+                    </Button>
+                    <Button onClick={() => setCurrent((prev) => (prev + 1) % committeeData.length)} sx={{ position: 'absolute', top: '50%', right: { xs: 'calc(50% - 200px)', sm: 'calc(50% - 300px)', md: 'calc(50% - 400px)' }, transform: 'translateY(-50%)', zIndex: 10, color: 'white', '&:hover': { color: blue[500] }, minWidth: 0, p: 1, }}>
+                    <ArrowRightIcon sx={{ fontSize: { xs: '2.5rem', md: '3rem' } }} />
+                    </Button>
+                </>
+                )}
+            </Box>
+            {isMobile && (
+                <Box sx={{
+                    position: 'absolute',
+                    bottom: '15%',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    display: 'flex',
+                    zIndex: 10,
+                }}>
+                    <Button onClick={() => setCurrent((prev) => (prev - 1 + committeeData.length) % committeeData.length)} sx={{ color: 'white', '&:hover': { color: blue[500] }, minWidth: 0, p: 1, }}>
+                        <ArrowLeftIcon sx={{ fontSize: '2.5rem' }} />
+                    </Button>
+                    <Button onClick={() => setCurrent((prev) => (prev + 1) % committeeData.length)} sx={{ color: 'white', '&:hover': { color: blue[500] }, minWidth: 0, p: 1, }}>
+                        <ArrowRightIcon sx={{ fontSize: '2.5rem' }} />
+                    </Button>
+                </Box>
+            )}
+            </Box>
+            
+            <Typography component="footer" variant="caption" sx={{ textAlign: 'center', p: 1, zIndex: 10 }}>
+                Powered by{' '}
+                <Link href="https://www.instagram.com/dpmun.i/" target="_blank" rel="noopener noreferrer" sx={shatteredLinkSx}>
+                dpmun.i
+                </Link>
             </Typography>
         </Box>
-
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 'calc(100vh - 112px)', width: '100%', position: 'relative', overflow: 'hidden' }}>
-          <Box sx={{ width: '100%', maxWidth: '1200px' }}>
-            <motion.div style={{ display: 'flex', width: `${committeeData.length * 100}%`, x: `-${current * (100 / committeeData.length)}%` }} animate={{ x: `-${current * (100 / committeeData.length)}%` }} transition={SPRING_OPTIONS}>
-              {committeeData.map((committee, i) => (
-                <Box key={committee.name} sx={{ width: `${100 / committeeData.length}%`, display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
-                  <Box sx={{ position: 'absolute', width: '100%', aspectRatio: 'auto', py: {xs: 15, sm: 18}, maxWidth: CARD_MAX_WIDTH, minWidth: CARD_MIN_WIDTH, backdropFilter: 'blur(8px)', borderRadius: 4, }} />
-                  <Paper sx={{
-                    position: 'relative',
-                    overflow: 'hidden',
-                    bgcolor: committee.color,
-                    width: '100%',
-                    maxWidth: CARD_MAX_WIDTH,
-                    minWidth: CARD_MIN_WIDTH,
-                    p: { xs: 2.5, sm: 3 },
-                    borderRadius: 4,
-                    textAlign: 'center',
-                    boxShadow: (t) => t.shadows[8],
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    transform: isMobile ? 'translateY(-24px)' : 'none',
-                    transition: 'transform 0.3s, box-shadow 0.3s',
-                    '&:hover': {
-                      transform: isMobile ? 'scale(1.02) translateY(-24px)' : 'scale(1.02)',
-                      boxShadow: (t) => t.shadows[12],
-                    },
-                  }}>
-                    <img
-                        src={`${process.env.PUBLIC_URL}/unemblem.png`}
-                        alt="Watermark"
-                        style={{
-                            position: 'absolute',
-                            width: '250px',
-                            height: '250px',
-                            opacity: 0.08,
-                            pointerEvents: 'none',
-                            ...committee.watermarkPosition,
-                        }}
-                    />
-
-                    <Box>
-                      <Typography variant={isMobile ? 'h6' : 'h5'} sx={{ mb: 2, fontWeight: 700 }}>{committee.name}</Typography>
-                      <Typography variant="body2" sx={{ px: 1, fontStyle: 'italic', opacity: 0.9 }}>{committee.description}</Typography>
-                    </Box>
-
-                    <Box sx={{ width: '100%', mt: 2 }}>
-                      <Divider sx={{ my: 2, bgcolor: 'rgba(255, 255, 255, 0.2)' }} />
-                      <Button
-                        variant="outlined"
-                        href={committee.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        sx={{
-                          borderColor: alpha('#fff', 0.3),
-                          color: 'white',
-                          '&:hover': {
-                            borderColor: alpha('#fff', 0.7),
-                            bgcolor: alpha('#fff', 0.1)
-                          }
-                        }}
-                      >
-                        Write your GSL
-                      </Button>
-                    </Box>
-                  </Paper>
-                </Box>
-              ))}
-            </motion.div>
-
-            {isMobile ? (
-              <>
-                <Button onClick={() => setCurrent((prev) => (prev - 1 + committeeData.length) % committeeData.length)} sx={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-100%)', zIndex: 10, color: 'white', '&:hover': { color: blue[500] }, minWidth: 0, p: 1, }}>
-                  <ArrowLeftIcon sx={{ fontSize: { xs: '2.5rem', md: '3rem' } }} />
-                </Button>
-                <Button onClick={() => setCurrent((prev) => (prev + 1) % committeeData.length)} sx={{ position: 'absolute', bottom: 20, right: '50%', transform: 'translateX(100%)', zIndex: 10, color: 'white', '&:hover': { color: blue[500] }, minWidth: 0, p: 1, }}>
-                  <ArrowRightIcon sx={{ fontSize: { xs: '2.5rem', md: '3rem' } }} />
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button onClick={() => setCurrent((prev) => (prev - 1 + committeeData.length) % committeeData.length)} sx={{ position: 'absolute', top: '50%', left: { xs: 'calc(50% - 200px)', sm: 'calc(50% - 300px)', md: 'calc(50% - 400px)' }, transform: 'translateY(-50%)', zIndex: 10, color: 'white', '&:hover': { color: blue[500] }, minWidth: 0, p: 1, }}>
-                  <ArrowLeftIcon sx={{ fontSize: { xs: '2.5rem', md: '3rem' } }} />
-                </Button>
-                <Button onClick={() => setCurrent((prev) => (prev + 1) % committeeData.length)} sx={{ position: 'absolute', top: '50%', right: { xs: 'calc(50% - 200px)', sm: 'calc(50% - 300px)', md: 'calc(50% - 400px)' }, transform: 'translateY(-50%)', zIndex: 10, color: 'white', '&:hover': { color: blue[500] }, minWidth: 0, p: 1, }}>
-                  <ArrowRightIcon sx={{ fontSize: { xs: '2.5rem', md: '3rem' } }} />
-                </Button>
-              </>
-            )}
-          </Box>
-        </Box>
-        <Typography variant="caption" sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, textAlign: 'center', p: 1, zIndex: 10 }}>
-            Powered by{' '}
-            <Link href="https://www.instagram.com/dpmun.i/" target="_blank" rel="noopener noreferrer" sx={shatteredLinkSx}>
-            dpmun.i
-            </Link>
-        </Typography>
       </motion.div>
     </ThemeProvider>
   );
