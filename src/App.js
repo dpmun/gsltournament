@@ -39,8 +39,8 @@ const committeeData = [
     watermarkPosition: { bottom: -80, right: -80 },
   },
   {
-    name: 'UNRWA',
-    description: 'The United Nations Relief and Works Agency supports the relief and human development of Palestinian refugees in the Near East.',
+    name: 'DISEC',
+    description: 'The Disarmament and International Security Committee addresses global challenges related to disarmament, arms control, and threats to international peace and security.',
     link: 'https://forms.gle/BLeympn2DAjMeYfG6',
     color: blue[600],
     watermarkPosition: { bottom: -80, left: -80 },
