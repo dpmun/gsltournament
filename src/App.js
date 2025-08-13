@@ -41,7 +41,7 @@ const committeeData = [
   {
     name: 'DISEC',
     description: 'The Disarmament and International Security Committee addresses global challenges related to disarmament, arms control, and threats to international peace and security.',
-    link: 'https://forms.gle/BLeympn2DAjMeYfG6',
+    link: 'https://forms.gle/f3LjK29wLUb1RWda6',
     color: blue[600],
     watermarkPosition: { bottom: -80, left: -80 },
   },
