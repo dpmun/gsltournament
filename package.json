@@ -20,7 +20,7 @@
     "tsparticles": "^3.9.1",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "https://dpmun.github.io/gsltournament",
+  "homepage": "https://dpmun.github.io/gsltournament/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
